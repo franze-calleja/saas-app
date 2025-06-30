@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import {
   Select,
@@ -7,7 +8,7 @@ import {
   SelectValue,
 } from "./ui/select";
 import { subjects } from "@/constants";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { formUrlQuery, removeKeysFromUrlQuery } from "@jsmastery/utils";
 
@@ -17,6 +18,7 @@ const SubjectFilter = () => {
   const query = searchParams.get("subject") || "";
 
   const [subject, setSubject] = useState(query);
+
   useEffect(() => {
     let newUrl = "";
     if (subject === "all") {
@@ -33,19 +35,18 @@ const SubjectFilter = () => {
     }
     router.push(newUrl, { scroll: false });
   }, [subject]);
+
   return (
     <Select onValueChange={setSubject} value={subject}>
       <SelectTrigger className="input capitalize">
-        <SelectValue placeholder="Subject"></SelectValue>
+        <SelectValue placeholder="Subject" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">All Subject</SelectItem>
+        <SelectItem value="all">All subjects</SelectItem>
         {subjects.map((subject) => (
-          <SelectItem
-            key={subject}
-            value={subject}
-            className="capitalize"
-          ></SelectItem>
+          <SelectItem key={subject} value={subject} className="capitalize">
+            {subject}
+          </SelectItem>
         ))}
       </SelectContent>
     </Select>
